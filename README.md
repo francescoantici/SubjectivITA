@@ -1,2 +1,6 @@
 # ItalianNewspaperArticlePolarityDataset
-Collection of 102 Italian newspaper's articles labeled as Objective or Subjective. Each article is divided in sentences, which are consequently classified as either Subjective or Objective.
+Collection of Italian newspaper's articles labeled as Objective or Subjective.
+It has been collected 102 articles, divided in sentences. 
+Each sentence is labelled as either Subjective or Objective, an amount of ~ 1800 sentences are collected.
+
+
