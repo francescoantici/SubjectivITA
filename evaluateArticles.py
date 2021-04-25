@@ -14,7 +14,7 @@ def create_articles_model(modelName = 'random-forest'):
   modelSwitcher = {
       "svm" : LinearSVC,
       "logistic" : LogisticRegression,
-      "tree" : DecisionTreeClassifier,
+      "decision-tree" : DecisionTreeClassifier,
       "random-forest": RandomForestClassifier,
       "naive-bayes" : MultinomialNB
   }
@@ -49,10 +49,11 @@ def get_articles(split):
   return X, y
 
 def main():
-    articlesModel = create_articles_model()
     articlesXtrain, articlesytrain = get_articles(split='train')
     articlesXTest, articlesytest = get_articles(split='test')
-    articlesModel = train_articles_model(articlesModel, articlesXtrain, articlesytrain)
-    evaluate_articles_model(articlesModel, articlesXTest, articlesytest)
+    for model in ["svm", "logistic", "random-forest", "naive-bayes", "decision-tree"]:
+      articlesModel = create_articles_model(model)
+      articlesModel = train_articles_model(articlesModel, articlesXtrain, articlesytrain)
+      evaluate_articles_model(articlesModel, articlesXTest, articlesytest)
 
 main()
