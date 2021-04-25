@@ -40,13 +40,13 @@ def create_sentences_model():
     bertModel = TFBertModel.from_pretrained("m-polignano-uniba/bert_uncased_L-12_H-768_A-12_italian_alb3rt0")(input_ids, token_type_ids=token_type_ids, attention_mask=attention_mask)[-1]
     out = tf.keras.layers.Dense(1, activation=tf.nn.sigmoid)(tf.keras.layers.Dropout(0.1)(bertModel))
     model = tf.keras.Model(inputs=[input_ids, token_type_ids, attention_mask], outputs=out)
-    model.compile(optimizer = tf.optimizers.Adam(2e-5), loss = tf.keras.losses.BinaryCrossentropy(), metrics = ['accuracy'])
+    model.compile(optimizer = tf.optimizers.Adam(1e-5), loss = tf.keras.losses.BinaryCrossentropy(), metrics = ['accuracy'])
     return model
 
 def train_sentences_model(model, Xtrain, ytrain, validation_data, save_weights = True):
   try:
     Xtrain, ytrain = prepare_data(Xtrain, ytrain)
-    callback = tf.keras.callbacks.EarlyStopping(monitor = 'val_loss', mode = 'min', patience = 2, restore_best_weights = True)
+    callback = tf.keras.callbacks.EarlyStopping(monitor = 'val_accuracy', mode = 'max', patience = 2, restore_best_weights = True)
     model.fit(Xtrain, ytrain, validation_data = prepare_data(validation_data[0], validation_data[1]), batch_size = 16, epochs = 4, callbacks = [callback])
     if save_weights:
       model.save_weights('weights/sentencesModelWeights.h5')

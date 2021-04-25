@@ -1,9 +1,9 @@
               precision    recall  f1-score   support
 
-         OGG       0.86      0.74      0.79       257
-         SOG       0.51      0.70      0.59       102
+         OGG       0.67      1.00      0.80       152
+         SOG       0.00      0.00      0.00        75
 
-    accuracy                           0.72       359
-   macro avg       0.68      0.72      0.69       359
-weighted avg       0.76      0.72      0.73       359
+    accuracy                           0.67       227
+   macro avg       0.33      0.50      0.40       227
+weighted avg       0.45      0.67      0.54       227
 
