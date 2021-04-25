@@ -8,7 +8,7 @@ from sklearn.metrics import classification_report
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
-from evaluate_sentences_model import toLabels
+from evaluateSentences import toLabels
 
 def create_articles_model(modelName = 'random-forest'):
   modelSwitcher = {
@@ -31,10 +31,9 @@ def train_articles_model(model, Xtrain, ytrain):
 
 def evaluate_articles_model(model, Xtest, ytest):
   y_pred = model.predict(Xtest)
-  ypred = list(map(lambda x: toLabels[x], y_pred))
-  ytest = list(map(lambda x: toLabels[x], ytest))
+  ypred = toLabels(y_pred)
+  ytest = toLabels(ytest)
   with open('results/reports_articles.txt', 'a') as f:
-    f.write(model+":\n")
     f.write(classification_report(ytest, y_pred = ypred)+ "\n")
 
 def get_articles(split):
