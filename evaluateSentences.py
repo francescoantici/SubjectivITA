@@ -93,4 +93,4 @@ def main(train = False):
       print("No weights found!")
   evaluate_sentences_model(sentencesModel, sentencesXtest, sentencesytest)
 
-main(train = True)
+main()
