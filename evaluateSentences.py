@@ -1,4 +1,3 @@
-import tensorflow_text as text
 import tensorflow as tf
 from transformers import AutoTokenizer, TFBertModel
 import pandas as pd
@@ -49,7 +48,7 @@ def train_sentences_model(model, Xtrain, ytrain, validation_data, save_weights =
     Xtrain, ytrain = prepare_data(Xtrain, ytrain)
     weights = compute_class_weight(class_weight = 'balanced', classes = [0.0, 1.0], y = ytrain)
     class_weights = {0 : weights[0], 1: weights[1]}
-    callback = tf.keras.callbacks.EarlyStopping(monitor = 'val_loss', mode = 'min', patience = 2, restore_best_weights = True)
+    callback = tf.keras.callbacks.EarlyStopping(monitor = 'val_accuracy', mode = 'max', patience = 2, restore_best_weights = True)
     model.fit(Xtrain, ytrain, validation_data = prepare_data(validation_data[0], validation_data[1]), batch_size = 16, epochs = 4, callbacks = [callback], class_weight = class_weights)
     if save_weights:
       model.save_weights('weights/sentencesModelWeights.h5')
@@ -94,8 +93,4 @@ def main(train = False):
       print("No weights found!")
   evaluate_sentences_model(sentencesModel, sentencesXtest, sentencesytest)
 
-main()
-  
-  
-  
-
+main(train = True)
