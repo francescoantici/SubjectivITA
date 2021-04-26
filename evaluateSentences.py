@@ -4,6 +4,7 @@ from transformers import AutoTokenizer, TFBertModel
 import pandas as pd
 import numpy as np
 from sklearn.metrics import classification_report
+from sklearn.utils.class_weight import compute_class_weight
 
 maxSentenceLen = 20
 
@@ -17,8 +18,8 @@ def prepare_data(X, y):
             "emotions": []
         }
     lbls = {
-        'SOG' : [1.0],
-        'OGG' : [0.0]
+        'SOG' : 1.0,
+        'OGG' : 0.0
     }
     for i in range(len(X)):
         data = tokenizer(X[i])
@@ -46,8 +47,10 @@ def create_sentences_model():
 def train_sentences_model(model, Xtrain, ytrain, validation_data, save_weights = True):
   try:
     Xtrain, ytrain = prepare_data(Xtrain, ytrain)
-    callback = tf.keras.callbacks.EarlyStopping(monitor = 'val_accuracy', mode = 'max', patience = 2, restore_best_weights = True)
-    model.fit(Xtrain, ytrain, validation_data = prepare_data(validation_data[0], validation_data[1]), batch_size = 16, epochs = 4, callbacks = [callback])
+    weights = compute_class_weight(class_weight = 'balanced', classes = [0.0, 1.0], y = ytrain)
+    class_weights = {0 : weights[0], 1: weights[1]}
+    callback = tf.keras.callbacks.EarlyStopping(monitor = 'val_loss', mode = 'min', patience = 2, restore_best_weights = True)
+    model.fit(Xtrain, ytrain, validation_data = prepare_data(validation_data[0], validation_data[1]), batch_size = 16, epochs = 4, callbacks = [callback], class_weight = class_weights)
     if save_weights:
       model.save_weights('weights/sentencesModelWeights.h5')
     print("Sentences model trained successfully!")
@@ -71,7 +74,7 @@ def get_sentences(split):
 def toLabels(data, subT = 0.5):
     ypred = []
     for pred in data:
-        if pred > subT:
+        if pred >= subT:
             ypred.append('SOG')
         else:
             ypred.append('OGG')
