@@ -33,7 +33,7 @@ def prepare_data(X, y):
     
     return [dataFields["input_ids"], dataFields["token_type_ids"], dataFields["attention_mask"]], dataFields["emotions"]
 
-def create_sentences_model():
+def create_sentences_model(useAlberto = False):
     input_ids = tf.keras.layers.Input(shape=(maxSentenceLen,), dtype=tf.int32)
     token_type_ids = tf.keras.layers.Input(shape=(maxSentenceLen,), dtype=tf.int32)
     attention_mask = tf.keras.layers.Input(shape=(maxSentenceLen,), dtype=tf.int32)
