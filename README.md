@@ -8,7 +8,7 @@ The evaluations on the dataset have been performed through a AlBERTo model, prov
 To run experiments and show reports, install all the requirements with pip install -r requirements.txt and then run the evaluate.py file.
 
 If you use this dataset please cite it as:
-@InProceedings{10.1007/978-3-030-85251-1_4,
+''' @InProceedings{10.1007/978-3-030-85251-1_4,
 author="Antici, Francesco
 and Bolognini, Luca
 and Inajetovic, Matteo Antonio
@@ -21,7 +21,7 @@ year="2021",
 publisher="Springer International Publishing",
 address="Cham",
 pages="40--52",
-}
+} '''
 
 
 
